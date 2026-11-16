@@ -115,6 +115,9 @@ end
 
 script.on_configuration_changed(function()
     init_storage()
+    for _, inserter in pairs(storage.silo_inserters) do
+        if inserter.valid then inserter.disabled_by_script = true end
+    end
     -- pick up changed sprites and render layers on existing stations
     for _, group in pairs(storage.groups) do
         redraw_group(group)
@@ -143,11 +146,15 @@ local function attach_silo(silo, group)
     redraw_silo(group, silo)
 
     if remote.interfaces["cybersyn"] then
-        storage.silo_inserters[silo.unit_number] = silo.surface.create_entity{
+        local inserter = silo.surface.create_entity{
             name = INSERTER_NAME,
             position = {x = silo.position.x, y = silo.position.y - 2},
             force = silo.force
         }
+        if inserter then
+            inserter.disabled_by_script = true -- detection only; must never move items
+            storage.silo_inserters[silo.unit_number] = inserter
+        end
     end
 end
 
