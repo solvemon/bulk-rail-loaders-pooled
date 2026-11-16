@@ -18,6 +18,16 @@ local silo = {
     selection_box = {{-1.85, -1.85}, {1.85, 1.85}},
     draw_inventory_content = true,
     circuit_wire_max_distance = 9,
+    -- Hook red/green wires near the top-right corner instead of the entity
+    -- centre. One point has to fit all four runtime-drawn looks: it lands on
+    -- the hopper frame of the loader and on the stone rim of the unloader,
+    -- clear of the grate and the rails.
+    circuit_connector = {{
+        points = {
+            wire = {red = {1.4, -1.55}, green = {1.62, -1.55}},
+            shadow = {red = {1.6, -1.35}, green = {1.82, -1.35}}
+        }
+    }},
     -- keep the alt-mode content icons small and on the entity itself
     -- (they overlay the tipper grate / hopper instead of floating above)
     icon_draw_specification = {shift = {0, 0.4}, scale = 0.8, scale_for_many = 1.2}
@@ -63,23 +73,25 @@ local sprites = {
         type = "sprite",
         name = "mbrlp-loader-horizontal",
         filename = "__modern-bulk-rail-loader-pooled__/graphics/loader-horizontal.png",
-        width = 188,
-        height = 210,
+        width = 376,
+        height = 420,
+        scale = 0.5,
         shift = util.by_pixel(0, -16)
     },
     {
         type = "sprite",
         name = "mbrlp-loader-vertical",
         filename = "__modern-bulk-rail-loader-pooled__/graphics/loader-vertical.png",
-        width = 188,
-        height = 210,
+        width = 376,
+        height = 420,
+        scale = 0.5,
         shift = util.by_pixel(0, -16)
     },
     {
         type = "sprite",
         name = "mbrlp-unloader-horizontal",
         filename = "__modern-bulk-rail-loader-pooled__/graphics/unloader-horizontal.png",
-        width = 384,
+        width = 256,
         height = 256,
         scale = 0.5
     },
@@ -88,7 +100,7 @@ local sprites = {
         name = "mbrlp-unloader-vertical",
         filename = "__modern-bulk-rail-loader-pooled__/graphics/unloader-vertical.png",
         width = 256,
-        height = 384,
+        height = 256,
         scale = 0.5
     }
 }
@@ -119,6 +131,11 @@ invisible_inserter.hand_closed_shadow = empty_picture
 invisible_inserter.hand_open_shadow = empty_picture
 invisible_inserter.platform_picture = {sheet = empty_picture}
 invisible_inserter.draw_held_item = false
+invisible_inserter.draw_inserter_arrow = false
+invisible_inserter.flags = {
+    "not-on-map", "hide-alt-info",
+    "not-blueprintable", "not-deconstructable", "no-copy-paste", "not-upgradable"
+}
 
 data:extend{silo, pool, silo_item, invisible_inserter}
 data:extend(sprites)
