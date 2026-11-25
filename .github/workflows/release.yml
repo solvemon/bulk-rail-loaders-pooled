@@ -27,6 +27,7 @@ jobs:
         run: |
           if gh release view "v${{ steps.mod.outputs.version }}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::v${{ steps.mod.outputs.version }} is already released; bump version in info.json to publish a new release"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
