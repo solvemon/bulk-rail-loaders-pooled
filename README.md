@@ -11,7 +11,7 @@ only one inventory per station:
 * Factory inserters/loaders can feed or drain **any** silo; it all lands in the
   same pool.
 
-Requires **Factorio ≥ 2.0.38** (the version that introduced proxy containers).
+Requires **Factorio ≥ 2.1.0**.
 
 ## Usage
 
@@ -27,6 +27,21 @@ Requires **Factorio ≥ 2.0.38** (the version that introduced proxy containers).
 Wire **exactly one** silo (any of them) to your circuit network or Cybersyn
 combinator — every silo reports the full shared pool, so wiring two silos
 doubles the reading.
+
+### Cybersyn 2: exact loading
+
+With [Cybersyn 2](https://mods.factorio.com/mod/cybersyn2) installed, a train
+that arrives at a loading station on a Cybersyn 2 delivery is loaded with
+**exactly** that delivery's items and amounts; everything else stays in the
+pool, so one station can provide several items. Trains without a Cybersyn 2
+delivery are loaded with the whole pool as before. The map setting
+*Cybersyn 2: load exact delivery amounts* turns this off.
+
+**Unload stations need an inactivity timeout.** Silos unload a whole train in
+one tick, so the train leaves before the circuit network shows the new stock,
+and Cybersyn 2 then orders the same delivery again. On the station combinator
+of every unload station, set *Inactivity mode* to **After delivery** with a
+timeout of at least 1 second.
 
 ## Design notes
 
@@ -46,7 +61,13 @@ doubles the reading.
 * All graphics (`graphics/loader-*.png`, `graphics/unloader-*.png`) are from
   [railloader by mspielberg (therax)](https://github.com/mspielberg/factorio-railloader),
   licensed **LGPL-3.0** (see `LICENSE-railloader-graphics`). Keep that license
-  file and this attribution if you redistribute the mod.
+  file and this attribution if you redistribute the mod. The unloader images
+  are modified: shortened from 6 to 4 tiles to match the silo, with a
+  wall drawn around the pit. The loader images are modified too: upscaled
+  to double resolution with Real-ESRGAN, given a brushed-metal finish on the
+  frame, and their baked shadow is lighter and soft-edged. The vertical
+  loader also gets the horizontal one's ribbed front panel over the top of
+  its track opening.
 
 ## Development
 
